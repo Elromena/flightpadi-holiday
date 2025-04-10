@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Calendar Styles */
+.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: #3b82f6;
+  --rdp-background-color: #e0e7ff;
+  margin: 0 auto;
+  box-shadow: 0 8px 30px rgb(0, 0, 0, 0.12);
+}
+
+.rdp-months {
+  justify-content: center;
+}
+
+.rdp-month {
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.rdp-caption {
+  padding: 0 0 1rem;
+}
+
+.rdp-caption_label {
+  font-weight: 600;
+  color: #1e40af;
+  font-size: 1rem;
+}
+
+.rdp-head_cell {
+  font-weight: 600;
+  color: #64748b;
+}
+
+.rdp-day {
+  border-radius: 9999px !important;
+  transition: all 0.2s;
+}
+
+.rdp-day:hover:not([disabled]) {
+  background-color: #e0e7ff !important;
+}
+
+.rdp-day_selected:not([disabled]),
+.rdp-day_selected:focus:not([disabled]),
+.rdp-day_selected:active:not([disabled]),
+.rdp-day_selected:hover:not([disabled]) {
+  background-color: var(--rdp-accent-color);
+  color: white;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-out forwards;
+}
