@@ -27,7 +27,7 @@ export function DestinationPicker({ selectedDestination, onSelect, onNext }: Des
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center mb-12">
-        <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 mb-3">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 mb-3 text-center">
           Your Next Vacation is Three Clicks Away
         </h1>
         <p className="text-lg text-gray-500 text-center mb-8 max-w-2xl">
