@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Search, ArrowRight } from 'lucide-react';
+import { Search, ArrowRight } from 'lucide-react';
 import { destinations } from '../data/destinations';
 import { DestinationCard } from '../components/DestinationCard';
 import { useScrollToTop } from '../hooks/useScrollToTop';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 import { destinations } from '../data/destinations';
 import { useScrollToTop } from '../hooks/useScrollToTop';

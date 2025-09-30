@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Search, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Search, ArrowLeft, ArrowRight } from 'lucide-react';
 import { attractions } from '../data/attractions';
 import { AttractionCard } from '../components/AttractionCard';
 import { useScrollToTop } from '../hooks/useScrollToTop';
@@ -79,9 +79,9 @@ export function AttractionsPicker({ selectedDestination, onBack, onNext }: Attra
     return selectedAttractions.length >= 2;
   }, [selectedAttractions, selectedType]);
 
-  const totalPrice = React.useMemo(() => {
-    return selectedAttractions.reduce((sum, attraction) => sum + attraction.price, 0);
-  }, [selectedAttractions]);
+  // const totalPrice = React.useMemo(() => {
+  //   return selectedAttractions.reduce((sum, attraction) => sum + attraction.price, 0);
+  // }, [selectedAttractions]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
@@ -182,9 +182,10 @@ export function AttractionsPicker({ selectedDestination, onBack, onNext }: Attra
             isSelected={selectedAttractions.some(a => a.id === attraction.id)}
             onSelect={handleSelect}
             disabled={
-              selectedType &&
-              ((selectedType === 'full_package' && attraction.type === 'regular') ||
-               (selectedType === 'regular' && attraction.type === 'full_package'))
+              selectedType === null
+                ? undefined
+                : ((selectedType === 'full_package' && attraction.type === 'regular') ||
+                   (selectedType === 'regular' && attraction.type === 'full_package'))
             }
           />
         ))}

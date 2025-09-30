@@ -4,7 +4,7 @@ interface WebhookPayload {
   bookingId: string;
   transaction?: {
     amount: number;
-    id: string;
+    id?: string;
     currency: string;
     status: string;
     reference: string;
@@ -15,7 +15,7 @@ interface WebhookPayload {
     lastName: string;
     email: string;
     phone: string;
-    partySize: 'single' | 'couple';
+    partySize: 'single' | 'couple' | 'group';
     location: {
       needsTransport: boolean;
       originCity: string;
