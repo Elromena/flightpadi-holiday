@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DayPicker, DateRange } from 'react-day-picker';
 import { addDays, differenceInDays } from 'date-fns';
 import 'react-day-picker/dist/style.css';

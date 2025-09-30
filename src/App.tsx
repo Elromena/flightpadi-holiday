@@ -1,9 +1,7 @@
 import React from 'react';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import type { DateRange } from 'react-day-picker';
-import type { Attraction, Hotel } from './types';
 import { DestinationPicker } from './stages/DestinationPicker';
 import { DatePicker } from './stages/DatePicker';
 import { AttractionsPicker } from './stages/AttractionsPicker';
@@ -18,10 +16,9 @@ import { sendWebhook } from './services/webhook';
 import { useBookingState } from './hooks/useBookingState';
 import { destinations } from './data/destinations';
 import { differenceInDays } from 'date-fns';
-import type { TravellerInfo } from './types';
+import { generateBookingId } from './utils/bookingId';
 
 function BookingFlow() {
-  const navigate = useNavigate();
   const { config: getFlutterwaveConfig } = useFlutterwave();
   const {
     selectedDestination,
@@ -110,6 +107,7 @@ function BookingFlow() {
           onNext={(amount) => {
             // Send webhook for payment initiation
             sendWebhook({
+              bookingId: generateBookingId(),
               customer: {
                 firstName: travellerInfo.firstName,
                 lastName: travellerInfo.lastName,
@@ -194,7 +192,7 @@ function BookingFlow() {
               },
             });
 
-            // @ts-ignore - FlutterWave types are not up to date
+            // @ts-expect-error - FlutterWave types are not up to date
             window.FlutterwaveCheckout(config);
           }}
         />

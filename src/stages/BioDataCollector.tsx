@@ -1,9 +1,9 @@
 import React from 'react';
 import { ArrowLeft, ArrowRight, Phone } from 'lucide-react';
-import type { TravellerInfo, TravelPartySize } from '../types';
+import type { TravellerInfo, TravelPartySize, Attraction, Hotel } from '../types';
+import type { DateRange } from 'react-day-picker';
 import { destinations } from '../data/destinations';
-import { attractions } from '../data/attractions';
-import { hotels } from '../data/hotels';
+// Removed unused imports: attractions, hotels
 import { PRICING } from '../config/pricing';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import { sendWebhook } from '../services/webhook';
@@ -87,7 +87,7 @@ export function BioDataCollector({
         const bookingId = generateBookingId();
         const duration = dateRange?.from && dateRange?.to
           ? Math.ceil((dateRange.to.getTime() - dateRange.from.getTime()) / (1000 * 60 * 60 * 24))
-          : undefined;
+          : 0;
 
         // Send webhook before proceeding
         await sendWebhook({
@@ -125,7 +125,7 @@ export function BioDataCollector({
                 id: selectedHotel.id,
                 name: selectedHotel.name,
                 price: selectedHotel.price,
-                nights: duration,
+                nights: dateRange?.from && dateRange?.to ? duration : undefined,
               } : undefined,
             },
           },

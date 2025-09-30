@@ -1,6 +1,18 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { FlutterwaveConfig } from 'flutterwave-react-v3';
+// Types from flutterwave-react-v3 are limited; define minimal local shape
+type FlutterwaveConfig = {
+  public_key: string;
+  tx_ref: string;
+  amount: number;
+  currency: string;
+  payment_options: string;
+  customer: { email: string; name: string; phonenumber: string };
+  customizations: { title: string; description: string; logo: string };
+  meta: PaymentConfig['meta'];
+  callback: (response: any) => void; // SDK provides dynamic shape
+  onclose: () => void;
+};
 import { sendWebhook } from '../services/webhook';
 import { generateBookingId } from '../utils/bookingId';
 
@@ -9,7 +21,29 @@ interface PaymentConfig {
   customerEmail: string;
   customerName: string;
   customerPhone: string;
-  meta: Record<string, any>;
+  meta: {
+    customer: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+      partySize: 'single' | 'couple' | 'group';
+      location: {
+        needsTransport: boolean;
+        originCity: string;
+        wantsTransportQuote: boolean;
+      };
+    };
+    trip: {
+      destination: { id: string; name: string };
+      dates?: { startDate: string; endDate: string; duration: number };
+      package: {
+        type: 'regular' | 'full_package';
+        attractions: Array<{ id: string; name: string; price: number }>;
+        accommodation?: { id: string; name: string; price: number };
+      };
+    };
+  };
 }
 
 export function useFlutterwave() {
@@ -51,7 +85,7 @@ export function useFlutterwave() {
         logo: 'https://images.unsplash.com/photo-1589308454676-22a0e7e1f58f',
       },
       meta,
-      callback: async (response) => {
+      callback: async (response: any) => {
         console.log('Payment callback:', response);
         setIsProcessing(true);
 
@@ -62,6 +96,7 @@ export function useFlutterwave() {
               bookingId,
               transaction: {
                 amount: response.amount,
+                id: String(response.id ?? ''),
                 currency: response.currency,
                 status: response.status,
                 reference: response.tx_ref,
@@ -89,6 +124,7 @@ export function useFlutterwave() {
               bookingId,
               transaction: {
                 amount: response.amount,
+                id: String(response.id ?? ''),
                 currency: response.currency,
                 status: 'failed',
                 reference: response.tx_ref,
@@ -112,7 +148,7 @@ export function useFlutterwave() {
           });
         } finally {
           setIsProcessing(false);
-          // @ts-ignore - FlutterWave types are not up to date
+          // @ts-expect-error - FlutterWave types are not up to date
           window.FlutterwaveCheckout?.close();
         }
       },
@@ -124,7 +160,7 @@ export function useFlutterwave() {
         }
       }
     };
-  }, [navigate, isProcessing]);
+  }, [navigate, isProcessing, txRef, bookingId]);
 
   return { config, isProcessing, txRef };
 }
